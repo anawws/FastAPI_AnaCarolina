@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from typing import Optional
+from pydantic import BaseModel
 
 
 app = FastAPI()
@@ -36,4 +37,24 @@ def listaTabuada(numero : int, start : Optional[int] = 1 , end : Optional[int] =
    return {
        "número" : numero,
        "tabuada" : tabuada
+    }
+
+
+#Bhaskara
+
+
+class num(BaseModel):
+   a : float
+   b : float
+   c : float
+
+@app.post("/bhaskara")
+def Bhaskara(conta : num):
+    d = conta.b**2 -4*conta.a*conta.c
+    x1 = ((-conta.b) + d ** 0.5) / (2*conta.a)
+    x2 = ((-conta.b) - d ** 0.5) / (2*conta.a)
+    return {
+       "eq" : str(conta.a) + "x²" + str(conta.b) + "x" + str(conta.c),
+       "x1" : x1,
+       "x2" : x2
     }
