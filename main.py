@@ -49,12 +49,39 @@ class num(BaseModel):
    c : float
 
 @app.post("/bhaskara")
-def Bhaskara(conta : num):
-    d = conta.b**2 -4*conta.a*conta.c
-    x1 = ((-conta.b) + d ** 0.5) / (2*conta.a)
-    x2 = ((-conta.b) - d ** 0.5) / (2*conta.a)
+def Bhaskara(c : num):
+    d = c.b**2 -4*c.a*c.c
+    x1 = ((-c.b) + d ** 0.5) / (2*c.a)
+    x2 = ((-c.b) - d ** 0.5) / (2*c.a)
     return {
-       "eq" : str(conta.a) + "x²" + str(conta.b) + "x" + str(conta.c),
+       "eq" : str(c.a) + "x²" + str(c.b) + "x" + str(c.c),
        "x1" : x1,
        "x2" : x2
+    }
+
+
+#Conta
+
+class letra(BaseModel):
+   frase : str
+
+@app.post("/conta")
+def ContaLetra(conta : letra):
+    v = 0
+    c = 0
+    o = 0
+    for i in range(0, len(conta.frase)):
+        caractere = conta.frase[i]
+        if caractere.lower() in 'aeiou':
+            v = v+1
+        elif caractere.lower() in ' ':
+            c = c+1
+        else:
+            o = o+1
+            
+    return {
+        "frase" : conta.frase,
+        "vogais": v,
+        "espacos": c,
+        "outros": o
     }
